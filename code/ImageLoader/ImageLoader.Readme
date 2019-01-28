@@ -1,0 +1,5 @@
+1. 使用NetworkImageView需要导入volley.jar
+2. NetworkImageView加载图片时使用setImageUrl(url, imageLoader);函数
+3. imageLoader在单例VolleyHelper中生成
+4. VolleyHelper中有3个主要元素： imageLoader, cache, requestQueue
+5. NetworkImageView需要设置默认图片和加载失败后显示的图片：setDefaultImageResId, setErrorImageResId

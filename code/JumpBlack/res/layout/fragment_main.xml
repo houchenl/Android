@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#33ffff00"
+    android:orientation="vertical" >
+    
+    <Button 
+        android:id="@+id/btn_jump_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="jump in fragment"/>
+    
+    <Button 
+        android:id="@+id/btn_close_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="close in fragment"/>
+
+</LinearLayout>
