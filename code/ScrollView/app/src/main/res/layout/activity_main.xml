@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.hc.scrollview.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_top"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="hello"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:background="#9999FF"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="hello"
+            android:background="#FF9999"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="hello"
+            android:background="#99FF99"/>
+        <ListView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            android:focusable="false"
+            android:scrollbars="none"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="hello"
+            android:background="#9999FF"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="hello"
+            android:background="#FF9999"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="hello"
+            android:background="#99FF99"/>
+    </LinearLayout>
+
+</ScrollView>

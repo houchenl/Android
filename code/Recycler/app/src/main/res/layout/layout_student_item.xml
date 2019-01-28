@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="student"
+            type="com.hc.recycler.student.model.Student" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/item_tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="@{student.name}"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/item_tv_age"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="@{String.valueOf(student.age)}"
+            android:layout_alignParentRight="true"
+            android:gravity="center"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#333333"/>
+    </RelativeLayout>
+
+</layout>

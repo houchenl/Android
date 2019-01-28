@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yulin.touch.MainActivity">
+
+    <Button
+        android:id="@+id/btn_scroll_clickable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="scroll clickable"/>
+
+    <Button
+        android:id="@+id/btn_velocity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="velocity"/>
+
+    <Button
+        android:id="@+id/btn_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="scroll"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!" />
+
+    <com.yulin.touch.widget.SkipChildGroup
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="#0f0">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello World"
+            android:textSize="22sp"/>
+    </com.yulin.touch.widget.SkipChildGroup>
+
+    <com.yulin.touch.widget.MyGroup
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="#f00">
+        <com.yulin.touch.widget.MyView
+            android:id="@+id/my_view"
+            android:layout_width="250dp"
+            android:layout_height="150dp"
+            android:background="#00f"/>
+    </com.yulin.touch.widget.MyGroup>
+
+</LinearLayout>
