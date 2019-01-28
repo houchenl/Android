@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false">
+
+    <!-- By setting the android:oneshot attribute of the list to true,
+    it will cycle just once then stop and hold on the last frame.
+    If it is set false then the animation will loop.  -->
+
+    <item android:drawable="@drawable/img1" android:duration="1000"/>
+    <item android:drawable="@drawable/img2" android:duration="1000"/>
+    <item android:drawable="@drawable/img3" android:duration="1000"/>
+    <item android:drawable="@drawable/img4" android:duration="1000"/>
+    <item android:drawable="@drawable/img5" android:duration="1000"/>
+
+</animation-list>
+
+    <!--
+        根标签为animation-list，其中oneshot代表着是否只展示一遍，设置为false会不停的循环播放动画
+        根标签下，通过item标签对动画中的每一个图片进行声明
+        android:duration 表示展示所用的该图片的时间长度
+    -->
+
+<!--
+While you can define the frames of an animation in your code, using the AnimationDrawable class API,
+it's more simply accomplished with a single XML file that lists the frames that compose the animation.
+The XML file for this kind of animation belongs in the res/drawable/ directory of your Android project.
+In this case, the instructions are the order and duration for each frame of the animation.
+
+The XML file consists of an <animation-list> element as the root node and a series of child <item> nodes
+that each define a frame: a drawable resource for the frame and the frame duration.
+-->

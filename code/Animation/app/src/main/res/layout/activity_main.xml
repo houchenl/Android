@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_test_library"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="test library"/>
+
+        <Button
+            android:id="@+id/btn_tween"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="tween"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btn_frame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="frame"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btn_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="layout"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btn_property"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="property"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btn_arc_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Arc Menu"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btn_cross_fade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cross Fade"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btn_slide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="slide"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btn_card_flip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Card Flip"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btn_zoom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="zoom"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btn_layout_change"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Layout Change"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btn_make_soup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Make Soup"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btn_dialog_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dialog Activity"
+            android:textAllCaps="false"/>
+    </LinearLayout>
+
+</ScrollView>

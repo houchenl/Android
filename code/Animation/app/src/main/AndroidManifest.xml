@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.hc.animation" >
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme" >
+        <activity android:name=".MainActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".tween.TweenAnimationActivity"
+            android:label="Tween"/>
+
+        <activity android:name=".frame.FrameAnimationActivity"
+            android:label="Frame"/>
+
+        <activity android:name=".layout.ListAnimationActivity"
+            android:label="Layout"/>
+
+        <activity android:name=".property.PropertyAnimationActivity"
+            android:label="property"/>
+
+        <activity android:name=".property.ArcMenuActivity"
+            android:label="ArcMenu"/>
+
+        <activity android:name=".fade.CrossFadeActivity"
+            android:label="Cross Fade"/>
+
+        <activity android:name=".slide.ScreenSlideActivity"
+            android:label="Slide"/>
+
+        <activity android:name=".flip.CardFlipActivity"
+            android:label="Card Flip"/>
+
+        <activity android:name=".zoom.ZoomActivity"
+            android:label="Zoom"/>
+
+        <activity android:name=".layout.LayoutChangeActivity"
+            android:label="Layout Change"/>
+
+        <activity android:name=".soup.PullToMakeSoupActivity"
+            android:label="Make Soup"/>
+
+        <activity android:name=".dialogact.MyDialogActivity"
+            android:label="Dialog Activity"
+            android:theme="@style/MyDialogStyleBottom"/>
+
+        <activity android:name=".test.ReboundActivity"
+            android:label="Rebound"/>
+
+        <activity android:name=".test.TestActivity"
+            android:label="Test"/>
+    </application>
+
+</manifest>
