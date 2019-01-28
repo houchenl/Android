@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/transparent"/>
+    <stroke
+        android:width="@dimen/common_padding_1dip"
+        android:color="@android:color/white"
+        ></stroke>
+    <padding android:bottom="@dimen/common_padding_10dip" android:left="@dimen/common_padding_30dip" android:right="@dimen/common_padding_30dip" android:top="@dimen/common_padding_10dip"/>
+    <corners
+        android:radius="@dimen/common_padding_100dip" />
+</shape>

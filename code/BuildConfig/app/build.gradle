@@ -1,0 +1,73 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "com.yulin.buildconfig"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        debug {
+            storeFile file('../chemayi_debug.jks')
+            keyAlias 'chemayi_alias'
+            keyPassword '12345678'
+            storePassword '00000000'
+
+            v2SigningEnabled false
+        }
+        release {
+            storeFile file('../chemayi_release.jks')
+            keyAlias 'chemayi'
+            keyPassword KEY_PASSWORD
+            storePassword KEYSTORE_PASSWORD
+
+            // 满足下面两个条件时需要此配置
+            // 1. Gradle版本 >= 2.14.1
+            // 2. Android Gradle Plugin 版本 >= 2.2.0
+            // 作用是只使用旧版签名，禁用V2版签名模式
+            // https://github.com/mcxiaoke/packer-ng-plugin/blob/master/compatibility.md
+            v2SigningEnabled false
+        }
+    }
+
+    buildTypes {
+        debug {
+            zipAlignEnabled true
+            signingConfig signingConfigs.debug
+            minifyEnabled false
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+        }
+        release {
+            //是否进行zipalign优化
+            zipAlignEnabled true
+            //指定签名文件
+            signingConfig signingConfigs.release
+            // 是否进行混淆
+            minifyEnabled true
+            // 指定混淆规则文件
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable false
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+        }
+    }
+}
+
+dependencies {
+    releaseCompile project(path: ':common', configuration: 'release')
+    debugCompile project(path: ':common', configuration: 'debug')
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
+//    compile project(':common')
+    releaseCompile project(path: ':common', configuration: 'release')
+    debugCompile project(path: ':common', configuration: 'debug')
+}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#333333"
+    android:layout_height="match_parent">
+
+    <com.hc.customview.widget.RingPercentView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:backgroundColor="#ffffff"
+        app:bgRingWidth="8dp"
+        app:bgRingColor="#00ffffff"
+        app:percentRingWidth="8dp"
+        app:startColor="#ff0000"
+        app:endColor="#0000ff"
+        app:sweepAngle="222"
+        app:duration="1500"/>
+
+</LinearLayout>

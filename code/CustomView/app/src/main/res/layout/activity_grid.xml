@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <com.hc.customview.box.BoxLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:separatorWidth="2dp"
+        app:separatorColor="#999"
+        app:numColumns="3">
+
+        <include layout="@layout/layout_box" />
+
+        <include layout="@layout/layout_box" />
+
+        <include layout="@layout/layout_box" />
+
+        <include layout="@layout/layout_box" />
+
+        <include layout="@layout/layout_box" />
+
+        <include layout="@layout/layout_box" />
+
+        <include layout="@layout/layout_box" />
+
+        <include layout="@layout/layout_box" />
+
+        <include layout="@layout/layout_box" />
+
+    </com.hc.customview.box.BoxLayout>
+
+</LinearLayout>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.hc.fragment.MainActivity">
+
+    <Button
+        android:id="@+id/btn_fragment_fragment_communicate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="fragment_fragment_communicate" />
+
+    <Button
+        android:id="@+id/btn_test_close"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="test close"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/btn_test_corner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="test corner"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/btn_show_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="show fragment"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/btn_show_multi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="multi fragment"
+        android:textAllCaps="false"/>
+
+</LinearLayout>

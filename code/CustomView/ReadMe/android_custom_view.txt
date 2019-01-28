@@ -1,0 +1,34 @@
+为什么要自定义View
+1. 减少布局层级
+
+自定义View的步骤
+1. attr
+2. measure
+3. draw
+
+自定义及获取属性
+1. 设置自定义view内部各图片文字的属性需要自定义属性。
+2. 自定义属性需要在工程根目录res/values下创建attrs.xml文件，在文件中添加根节点为<declare-styleable>的元素，元素的name值需设置为自定义view的类名
+3. 自定义属性时，如果可以，尽量使用系统中已有的属性，如"android:text"。如果需要自定义属性，需要指定属性的类别，格式为
+    <attr name="hc:margin" format="color"/>
+4. 在构造函数中通过 context.getTheme().obtainStyledAttributes(attrs, R.styleable.DoubleImageView, 0, style); 
+    获取属性值。方法返回TypedArray对象，这个对象很占用资源，使用完后必须马上recycle()释放。使用TypedArray对象的
+    getXxx()方法可以获取各种属性值。
+5. 拿到属性值后，通过setXxx()方法，把属性值保存到成员变量中，同时计算bounds，并重绘。
+   提供这种set方法，一方面可以供获取到xml中设置的属性值后保存用，另一方面可以供其它类更改属性值并重绘。
+
+measure
+1. 当拿到所有的属性值并保存到成员变量中后，开始测量view的宽和高。测量从根布局开始，向子布局测量。
+2. 首先获取view中所包含的内容所需要的最小宽和高。
+3. 然后通过 View.resolveSize(getDesiredWidth(), widthMeasureSpec) 获取最终的宽和高。这个方法根据specMode决定最终的返回值，如果specMode为AT_MOST或UNSPECIFIED，返回请求的值，如果specMode为EXACTLY，返回specSize。当布局的width和heigth设置为wrap_content或match_parent时，specMode为AT_MOST, specSize为父布局的宽高，如果布局的width和height设置为固定值，speckMode为EXACTLY, specSize为设置的固定值。
+4. 拿到测量的结果后，需要调用setMeasuredDimension(widthSize, heightSize); 否则会出现异常。
+
+onSizeChanged
+1. 在测量之前，系统不知道view的宽和高，此时调用getWidth()和getHeight()返回值为0。当测量完成后，系统知道了view的宽和高，会调用onSizeChanged()，此时，可以在这里设置view中所部分的bounds，而不用再onDraw()中设置bounds。
+2. onSizeChanged之后，系统会再次调用onMeasure()
+
+draw
+1. 测量完成，拿到各组件的bounds之后，开始绘制。
+2. 绘制图片时，可以先拿到图片的Drawable对象，然后在measure之后，设置Drawable对象的bounds，这样在onDraw()中调用Drawable对象的draw()方法，传入Canvas对象就可以直接绘制图片了。
+3. 绘制文字时，可以先在measure后，生成一个StaticLayout对象，在生成时传入文本、Paint对象、textWidth等设置，这样StaticLayout就知道了该用什么样式绘制什么内容，然后再调用Canvas的translate(x, y)方法，设置绘制区域的左上顶点，这样StaticLayout就知道了该从哪个位置开始绘制。
+4. Canvas对象的save()方法可以保存当前canvas的状态信息(包括位置)，restore()方法可以恢复前一次调用save()方法时canvas的状态。

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!-- 背景颜色 -->
+    <color name="b1">#ffffff</color>
+    <color name="b2">#fafafa</color>
+    <color name="b3">#f1f1f1</color>
+    <color name="b4">#eaeaea</color>
+    <color name="b5">#999999</color>
+    <color name="b6">#828282</color>
+    <color name="b7">#353535</color>
+
+    <!-- 分隔线颜色 -->
+    <color name="l1">#dadada</color>
+    <color name="l2">#cccccc</color>
+
+    <!-- 文字颜色 -->
+    <color name="t1">#6a6a6a</color>
+    <color name="t2">#aeaeae</color>
+
+    <!-- 彩色 -->
+    <color name="c1">#eb5b26</color>
+</resources>

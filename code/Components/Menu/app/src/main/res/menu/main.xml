@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/menu_spring" android:title="春天"/>
+    <item android:id="@+id/menu_summer" android:title="夏天"/>
+    <item android:id="@+id/menu_autumn" android:title="秋天"/>
+    <item android:id="@+id/menu_winter" android:title="冬天"/>
+
+</menu>
