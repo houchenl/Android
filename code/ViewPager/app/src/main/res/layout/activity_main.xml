@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btn_pager_adapter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="PagerAdapter"/>
+
+    <Button
+        android:id="@+id/btn_fragment_pager_adapter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="FragmentPagerAdapter"/>
+
+    <Button
+        android:id="@+id/btn_fragment_state_pager_adapter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="FragmentStatePagerAdapter"/>
+
+    <Button
+        android:id="@+id/btn_weibo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="仿微博"/>
+
+</LinearLayout>

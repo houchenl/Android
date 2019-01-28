@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="choose_list">
+        <item>多路视频</item>
+        <item>直播大讲坛</item>
+        <!--<item>悬浮窗口</item>-->
+    </string-array>
+
+    <string-array name="videoEncodeMax">
+        <item>512</item>
+        <item>256</item>
+        <item>128</item>
+        <item>64</item>
+        <item>32</item>
+    </string-array>
+</resources>

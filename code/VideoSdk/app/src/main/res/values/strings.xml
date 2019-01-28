@@ -1,0 +1,211 @@
+<resources>
+    <string name="app_name">VideoSdk</string>
+    <!-- common -->
+    <string name="common_char_limit">
+        "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM._@:-"
+    </string>
+    <!--
+    <string name="webservice_address">http://%s/common/webService/MoblieService.php?wsdl</string>
+    <string name="common_ready_to_join">"正在加入…"</string>
+    <string name="common_loading">"…"</string>
+    -->
+    <string name="common_pwd">密码：</string>
+    <string name="common_errormsg_localnet_wrong">当前网络不可用\n请检查你的网络设置</string>
+    <string name="common_version">"rt4.0_2015_03_11_2"</string>
+
+    <!-- function -->
+    <string name="divide">divide</string>
+    <!-- im -->
+    <!-- im common -->
+    <!-- <string name="im_common_visit_site_fail">访问失败</string> -->
+    <!-- im initial site -->
+    <string name="initialsite_et_sitename">请输入要登录的站点（必填）</string>
+    <string name="initialsite_toast_input_sitename">请输入站点</string>
+    <string name="initialsite_site_fail">访问失败，请检查你输入的站点是否正确</string>
+    <!-- im set site -->
+    <string name="setsite_set_site">站点设置</string>
+
+    <!-- im login -->
+    <string name="login_et_account">在此输入您的用户名</string>
+    <string name="login_et_pwd">在此输入您的密码</string>
+    <string name="login_title_login">登录</string>
+    <string name="login_port">站点：</string>
+    <string name="login_port_with_no_colon">站点</string>
+    <string name="login_anonymous_login">匿名登录</string>
+    <string name="login_regist">注 册</string>
+    <string name="login_tb_remote_video_conf_system">唐桥远程协同视频会议系统</string>
+    <string name="login_account">"帐号"</string>
+    <string name="login_site_must_write">"站点(必填)"</string>
+    <string name="login_please_input_site">"请输入站点"</string>
+    <string name="login_please_input_account">"请输入帐号"</string>
+    <string name="login_please_input_password">"请输入密码"</string>
+    <string name="login_password_is_wrong">"密码错误"</string>
+    <string name="login_password">"密码"</string>
+    <string name="login_user_account_can_not_empty">用户名为空</string>
+    <string name="login_account_or_password_is_wrong">账号或密码错误</string>
+    <string name="login_your_account_is_locked">对不起，你的账号已经被锁定，请联系站点管理员！</string>
+    <string name="login_your_account_is_not_activate">对不起，您的账号未激活，请联系站点管理员！</string>
+
+    <!-- im main -->
+    <string name="main_create">创建</string>
+    <string name="main_conf_list">会议列表</string>
+    <string name="main_create_conf">创建会议</string>
+    <string name="main_virtual_confroom">虚拟会议室</string>
+    <string name="main_setup">"设 置"</string>
+    <string name="main_accord_conf_list">"按会议列表"</string>
+    <string name="main_accord_conf_number">"按会议号加入"</string>
+    <string name="main_accord_conf_number_pad">"按会议号"</string>
+    <string name="main_setup_user_name">"用户名："</string>
+    <string name="main_setup_user_name_with_no_colon">"用户名"</string>
+    <string name="main_about_ruitong">"关于睿通"</string>
+    <string name="main_about_version">"版本号："</string>
+    <string name="main_setup_login">"登录"</string>
+    <string name="main_setup_logout">"注销"</string>
+    <string name="main_setup_oncemore_exit">"再按一次退出程序"</string>
+    <string name="dlg_msg_query_exit_im">是否退出睿通?</string>
+    <string name="main_set_client_type">"客戶端类型"</string>
+    <string name="main_set_client_type_std">"标准版"</string>
+    <string name="main_set_client_type_ghw">"挂号网"</string>
+    <string name="main_set_speediness_join_conf">"便捷加会"</string>
+    <string name="main_conf_list_no_conf_tv1">当前无会议~您可以</string>
+    <string name="main_conf_list_no_conf_tv2">"点击“"</string>
+    <string name="main_conf_list_no_conf_tv3">”来创建</string>
+
+    <!-- im create conf -->
+    <string name="create_conf_conf_theme">会议主题：</string>
+    <string name="create_conf_dn">显示名：</string>
+    <string name="create_conf_pwd">会议密码：</string>
+    <string name="create_conf_intput_again">再输一次：</string>
+    <string name="create_conf_host_pwd">主持人密码：</string>
+    <string name="create_conf_btn_start_conf">开始会议</string>
+    <!--
+    <string name="create_conf_conf_title_can_not_empty">会议主题不能为空</string>
+    <string name="create_conf_you_already_in_conf">您已在一个会议中</string>
+    <string name="create_conf_conf_num_is_full">参会人数已达到最大数目</string>
+    <string name="create_conf_fail">创建会议失败</string>
+    -->
+    <!-- im virtual meeting room -->
+    <string name="vmr_please_input_conf_password">请输入会议室密码:</string>
+    <string name="vmr_please_waite">请稍等…</string>
+    <string name="vmr_default_class">默认类别</string>
+    <string name="vmr_host_and_num">%1$s (%2$s)</string>
+    <string name="virtural_conf_list_is_empty">"虚拟会议室列表为空"</string>
+
+    <!-- im conf -->
+    <string name="conf_conf_number">"会议号："</string>
+    <string name="conf_conf_number_with_no_colno">"会议号"</string>
+    <string name="conf_join_conference">"加入"</string>
+    <string name="conf_title_conf">会议</string>
+    <string name="conf_title_conflist">会议列表</string>
+    <string name="groupchat_join_conf">加 入</string>
+    <string name="conf_display_name">显示名：</string>
+    <string name="conf_display_name_with_no_colon">显示名</string>
+    <string name="conf_list_is_empty">"当前无任何会议哦！"</string>
+    <string name="conf_please_input_dn">"请输入正确的显示名"</string>
+    <string name="conf_please_input_conf_number">"请输入会议号码"</string>
+    <string name="create_conf_input_meeting_topic">"请输入会议主题"</string>
+    <string name="create_conf_input_meeting_pwd">"请输入会议密码"</string>
+    <string name="create_conf_input_meeting_host_pwd">"请输入主持人密码"</string>
+    <string name="create_conf_check_pwd">"两次密码不一致"</string>
+    <string name="create_conf_whose_conf">"%s的会议"</string>
+
+    <!-- logo -->
+    <string name="logo_loading1">"智慧沟通 触手可及"</string>
+    <string name="logo_loading2">"Connect wisely with one touch"</string>
+    <string name="logo_loading3">"Copyright©2014 techbridge-inc.All rights reserved"</string>
+    <!-- actionbar -->
+    <string name="actionbar_refresh">刷新</string>
+    <string name="actionbar_more">更多</string>
+
+    <!-- update manager -->
+    <string name="update_manager_toast_check_sd_card">无法下载安装文件，请检查SD卡是否挂载</string>
+    <string name="update_manager_dlg_msg_wait">正在检测，请稍后…</string>
+    <string name="update_manager_dlg_title_note">系统提示</string>
+    <string name="update_manager_dlg_msg_upgrade">您当前已经是最新版本</string>
+    <string name="update_manager_dlg_msg_get_update_null">无法获取版本更新信息</string>
+    <string name="update_manager_dlg_title_toupdate">软件版本更新</string>
+    <string name="update_manager_dlg_btn_updatenow">立即更新</string>
+    <string name="update_manager_dlg_btn_will_update">以后再说</string>
+    <string name="update_manager_dlg_title_updating">正在下载新版本</string>
+    <string name="setup_about_toast_uptodate">目前已经是最新版本</string>
+    <string name="update_manager_dlg_update">更新</string>
+
+    <!-- xocode scan -->
+    <string name="msg_camera_scan">扫一扫</string>
+    <string name="msg_camera_framework_bug">抱歉，Android相机出现问题。您可能需要重启设备。</string>
+    <string name="virtural_room_is_building">虚拟会议室正在建设中~</string>
+
+
+    <!-- for ghw -->
+    <string name="conf_time_for_ghw">会议时间：</string>
+    <string name="ghw_warm_prompt">温馨提示:</string>
+    <string name="ghw_conf_wait">对方正在接入视频请稍等</string>
+    <string name="ghw_menu_exit_conf">退出</string>
+    <string name="ghw_menu_close_conf">结束</string>
+    <string name="ghw_network_change_prompt">您现在使用的是运营商网络,继续使用视频可能产生超额流量费用</string>
+    <string name="ghw_continue_to_work">继续使用</string>
+    <string name="ghw_choose_photo">选图</string>
+    <string name="ghw_my_audio_disable">您关闭了音频,对方将无法听到您的声音</string>
+    <string name="ghw_my_video_disable">您关闭了视频摄像头,对方将无法看到您的画面</string>
+    <string name="ghw_the_other_close_the_audio">对方关闭了音频</string>
+    <string name="ghw_the_other_close_the_video">对方关闭了视频摄像头</string>
+    <string name="ghw_max_doc_ammount">最多可以上传十张图片</string>
+    <string name="ghw_meeting_five_be_left">视频咨询将在5分钟后结束</string>
+    <string name="ghw_conf_both_sides_close_the_vido">双方关闭了视频摄像头</string>
+    <string name="ghw_conf_the_other_temporary_leve_the_conf">对方暂离了视频请稍等</string>
+    <string name="ghw_tv_network_check">您当前的网络不稳定，建议切换到其他网络环境</string>
+    <string name="ghw_tv_network_up_bad">网络通话质量不佳，已为您切换到语音模式</string>
+    <string name="ghw_tv_network_down_bad">网络通话质量不佳，请确认您的网络是否通畅</string>
+    <string name="ghw_conf_toolbar_articulation_SD">标清</string>
+    <string name="ghw_conf_toolbar_articulation_HD">高清</string>
+    <string name="ghw_conf_toolbar_camera">摄像头</string>
+    <string name="ghw_conf_toolbar_hangup">挂断</string>
+    <string name="ghw_conf_toolbar_change_camera">翻转</string>
+    <string name="ghw_conf_toolbar_change_audio_mode">语音模式</string>
+
+    <string name="ghw_conf_toolbar_audio_mute">静音</string>
+    <string name="ghw_conf_toolbar_hand_free">免提</string>
+
+    <!-- common -->
+    <string name="webservice_address_edu">http://%s/webService/service.php?wsdl</string>
+    <string name="webservice_address">http://%s/common/webService/MoblieService.php?wsdl</string>
+    <string name="common_ready_to_join">"正在加入…"</string>
+    <string name="common_loading">"…"</string>
+
+    <!-- <string name="im_common_visit_site_fail">访问失败</string> -->
+    <string name="im_common_visit_initial_site_fail">访问失败,请检查您输入的站点是否正确</string>
+
+
+    <!-- common -->
+    <string name="back">"返回"</string>
+    <string name="join">"加入"</string>
+    <string name="common_connecting">" 正在连接"</string>
+    <string name="common_yes">"是"</string>
+    <string name="common_no">"否"</string>
+    <string name="common_ok">"确定"</string>
+    <string name="common_cancel">"取消"</string>
+    <string name="common_renovate">"刷新"</string>
+    <string name="common_connect_fail">"连接故障"</string>
+    <string name="common_remind">"提示"</string>
+
+    <!-- dlg -->
+    <string name="dlg_msg_query_exit_conf">"您确定退出会议吗？"</string>
+    <string name="dlg_msg_query_exit_conf_activity">"您确定退出界面？"</string>
+    <string name="dlg_msg_query_close_conf">"您为本次主持人，选择结束会议则结束本次会议；选择退出会议，则您本人退出，继续保持会议。"</string>
+    <string name="dlg_msg_query_close_conf_btn_close_conf">"结束会议"</string>
+    <string name="dlg_msg_query_close_conf_btn_exit_conf">"退出会议"</string>
+    <string name="dlg_msg_reconnect_conf_btn_reconnect">"重新连接"</string>
+    <string name="dlg_msg_query_closeing_conf">"正在关闭会议，请稍等"</string>
+    <string name="dlg_msg_query_exiting_conf">"正在退出会议，请稍等"</string>
+    <string name="dlg_msg_query_close_wb">"确定删除所有白板？"</string>
+    <string name="upstream_rise_leavel">上行码流调整等级（重新加会起效）:</string>
+    <string name="high">高</string>
+    <string name="low">低</string>
+
+    <!--  conf share-->
+    <string name="conf_take_photo">拍照</string>
+    <string name="conf_take_photo_from_sd">从相册选取</string>
+    <string name="conf_new_wb">新建白板</string>
+    <string name="conf_share_doc">共享文档</string>
+    <string name="conf_share_doc_fail">找不到可用文件浏览程序，建议下载安装ES文件浏览器</string>
+</resources>

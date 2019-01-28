@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item
+        type="id"
+        name="TB_ANNOTATE_VIEW_ID" />
+    <item
+        type="id"
+        name="TB_VIDEO_VIEW_ID" />
+    <item
+        type="id"
+        name="video_default_view_id" />
+    <item
+        type="id"
+        name="video_local_view_id" />
+</resources>

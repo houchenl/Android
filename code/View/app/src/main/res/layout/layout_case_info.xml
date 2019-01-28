@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/shape_bg_case_info">
+
+    <!-- 头部 -->
+    <RelativeLayout
+        android:layout_width="700dp"
+        android:layout_height="197dp">
+
+        <TextView
+            android:id="@+id/tv_title_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_centerHorizontal="true"
+            android:text="乌镇互联网医院"
+            android:textSize="30dp"
+            android:textColor="#3d404f"/>
+
+        <TextView
+            android:id="@+id/tv_title_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/tv_title_1"
+            android:text="病历记录"
+            android:textSize="25dp"
+            android:textColor="#3d404f"/>
+
+        <LinearLayout
+            android:id="@+id/ll_department"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="34dp"
+            android:layout_marginTop="108dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_department_key"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="科别："
+                android:textSize="21dp"
+                android:textColor="#929db9"/>
+
+            <TextView
+                android:id="@+id/tv_department_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/tv_department_key"
+                android:layout_toRightOf="@id/tv_department_key"
+                android:text="内科"
+                android:textSize="21dp"
+                android:textColor="#3d404f"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/ll_department"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="34dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="就诊时间："
+                android:textSize="21dp"
+                android:textColor="#929db9"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2017.11.29"
+                android:textSize="21dp"
+                android:textColor="#3d404f"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="152dp"
+            android:layout_marginLeft="34dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="姓名："
+                android:textSize="21dp"
+                android:textColor="#929db9"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="黄天佑"
+                android:textSize="21dp"
+                android:textColor="#3d404f"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignBottom="@id/ll_name"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="性别："
+                android:textSize="21dp"
+                android:textColor="#929db9"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="男"
+                android:textSize="21dp"
+                android:textColor="#3d404f"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/ll_name"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="34dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="年龄："
+                android:textSize="21dp"
+                android:textColor="#929db9"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="18"
+                android:textSize="21dp"
+                android:textColor="#3d404f"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.14dp"
+            android:layout_alignParentBottom="true"
+            android:background="#d6ddee"
+            android:layout_marginLeft="33dp"
+            android:layout_marginRight="33dp"/>
+
+    </RelativeLayout>
+
+    <!-- 诊断详情 -->
+    <LinearLayout
+        android:id="@+id/ll_details"
+        android:layout_width="700dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="6dp"
+        android:paddingBottom="2dp"/>
+
+    <!-- 签名 -->
+    <RelativeLayout
+        android:layout_width="700dp"
+        android:layout_height="146dp">
+
+        <LinearLayout
+            android:id="@+id/ll_sign"
+            android:layout_width="142dp"
+            android:layout_height="68dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="42.75dp"
+            android:background="@drawable/shape_bg_case_info_sign"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_doctor_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="徐丽丽"
+                android:textColor="#ff0000"
+                android:textSize="17dp"/>
+
+            <TextView
+                android:id="@+id/tv_sign_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2017.12.21"
+                android:textColor="#ff0000"
+                android:textSize="14dp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/ll_sign"
+            android:layout_alignTop="@id/ll_sign"
+            android:layout_marginRight="12dp"
+            android:text="医师签名："
+            android:textSize="21dp"
+            android:textColor="#929db9"/>
+    </RelativeLayout>
+
+</LinearLayout>
