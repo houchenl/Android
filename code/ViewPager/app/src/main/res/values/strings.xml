@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ViewPager</string>
+    <string name="default_text">default</string>
+</resources>
