@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yulin.viewpager">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -20,8 +20,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".fragment.BasicFragmentSlideActivity" />
-        <activity android:name=".image.ImagePreviewActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity
+            android:name=".image.ImagePreviewActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+        <activity android:name=".image.ImageGridActivity" />
     </application>
 
 </manifest>

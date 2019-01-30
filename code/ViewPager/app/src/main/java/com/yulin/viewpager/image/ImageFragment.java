@@ -138,8 +138,9 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         Activity activity = getActivity();
-        if (activity != null) {
-            activity.finish();
+        if (activity instanceof ImagePreviewActivity) {
+            ImagePreviewActivity previewActivity = (ImagePreviewActivity) activity;
+            previewActivity.finishActivity();
         }
     }
 

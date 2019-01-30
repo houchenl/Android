@@ -1,12 +1,12 @@
 package com.yulin.viewpager;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.yulin.viewpager.fragment.BasicFragmentSlideActivity;
-import com.yulin.viewpager.image.ImagePreviewActivity;
+import com.yulin.viewpager.image.ImageGridActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startImagePreview(View view) {
-        startActivity(new Intent(this, ImagePreviewActivity.class));
+        startActivity(new Intent(this, ImageGridActivity.class));
     }
 
 }
