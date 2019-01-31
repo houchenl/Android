@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.yulin.viewpager.R;
+import com.yulin.viewpager.Tool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +38,10 @@ public class ImageGridActivity extends AppCompatActivity implements ImageGridAda
     }
 
     @Override
-    public void onItemClick(int position) {
+    public void onItemClick(int position, float x, float y, int width, int height) {
         Log.d(TAG, "onItemClick: position " + position);
-        ImagePreviewActivity.startActivity(this, position);
+        int titleBarHeight = Tool.getTitleBarHeight(this);
+        ImagePreviewActivity.startActivity(this, position, x, y, width, height, titleBarHeight);
     }
 
     private void initData() {

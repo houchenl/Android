@@ -1,8 +1,10 @@
 package com.yulin.viewpager.image;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +17,15 @@ import java.util.List;
 
 public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.ImageGridViewHolder> {
 
+    private static final String TAG = "houchenl-GridAdapter";
+
     private List<String> urls;
     private Context context;
 
     private OnItemClickListener mOnClickListener;
 
-    public ImageGridAdapter(Context context, List<String> urls) {
-        this.context = context;
+    ImageGridAdapter(Activity activity, List<String> urls) {
+        this.context = activity;
         this.urls = urls;
     }
 
@@ -37,11 +41,18 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Imag
     @Override
     public void onBindViewHolder(@NonNull final ImageGridViewHolder holder, int i) {
         Glide.with(context).load(urls.get(i)).into(holder.imageView);
+
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                float x = holder.root.getX();
+                float y = holder.root.getY();
+                int width = holder.root.getWidth();
+                int height = holder.root.getHeight();
+                Log.d(TAG, "onClick: x " + x + ", y " + y + ", width " + width + ", height " + height);
+
                 if (mOnClickListener != null)
-                    mOnClickListener.onItemClick(holder.getAdapterPosition());
+                    mOnClickListener.onItemClick(holder.getAdapterPosition(), x, y, width, height);
             }
         });
     }
@@ -51,23 +62,31 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Imag
         return urls != null ? urls.size() : 0;
     }
 
-    public static class ImageGridViewHolder extends RecyclerView.ViewHolder {
+    static class ImageGridViewHolder extends RecyclerView.ViewHolder {
 
-        public ImageView imageView;
+        ImageView imageView;
+        View root;
 
-        public ImageGridViewHolder(@NonNull View itemView) {
+        ImageGridViewHolder(@NonNull View itemView) {
             super(itemView);
+            root = itemView;
             imageView = itemView.findViewById(R.id.item_image);
         }
 
     }
 
-    public void setOnClickListener(OnItemClickListener listener) {
+    void setOnClickListener(OnItemClickListener listener) {
         this.mOnClickListener = listener;
     }
 
     public interface OnItemClickListener {
-        void onItemClick(int position);
+        /**
+         * @param x 点击item的x
+         * @param y 点击item的y
+         * @param width 点击item的width
+         * @param height 点击item的height
+         * */
+        void onItemClick(int position, float x, float y, int width, int height);
     }
 
 }
