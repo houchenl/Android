@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.yulin.viewpager.R;
@@ -37,6 +38,7 @@ public class ImagePreviewActivity extends FragmentActivity {
 
     private View maskView;
     private ViewPager viewPager;
+    private TextView mTvIndex;
 
     /**
      * 点击的待预览图片在原界面的x,y及宽高
@@ -85,8 +87,11 @@ public class ImagePreviewActivity extends FragmentActivity {
 
         maskView = findViewById(R.id.mask_view);
         viewPager = findViewById(R.id.view_pager);
+        mTvIndex = findViewById(R.id.tv_index);
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(mEnterPosition);
+
+        mTvIndex.setText((mCurrentPosition + 1) + "/" + images.size());
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -98,6 +103,7 @@ public class ImagePreviewActivity extends FragmentActivity {
             public void onPageSelected(int i) {
                 mCurrentPosition = i;
                 Log.d(TAG, "onPageSelected: " + i);
+                mTvIndex.setText((mCurrentPosition + 1) + "/" + images.size());
             }
 
             @Override
@@ -130,20 +136,21 @@ public class ImagePreviewActivity extends FragmentActivity {
 
         // 停止预览时，背景色从透明到黑色渐变
         final ObjectAnimator maskAnim = ObjectAnimator.ofFloat(maskView, "alpha", 1, 0);
+        final ObjectAnimator indexAnim = ObjectAnimator.ofFloat(mTvIndex, "alpha", 1, 0);
         ObjectAnimator scaleXAnim = ObjectAnimator.ofFloat(viewPager, "scaleX", 1f, scaleX);
         ObjectAnimator scaleYAnim = ObjectAnimator.ofFloat(viewPager, "scaleY", 1f, scaleY);
 
         if (mCurrentPosition != mEnterPosition) {
             // 退出动画不再退到原图位置，直接退到屏幕正中央
             final ObjectAnimator viewPagerAnim = ObjectAnimator.ofFloat(viewPager, "alpha", 1, 0);
-            set.play(maskAnim).with(scaleXAnim).with(scaleYAnim).with(viewPagerAnim);
+            set.play(maskAnim).with(indexAnim).with(scaleXAnim).with(scaleYAnim).with(viewPagerAnim);
         } else {
             float translationX = mItemX - (mScreenWidth - mItemWidth) / 2;
             float scaledY = (mScreenHeight - mItemHeight) / 2;  // ViewPager缩放后图片上边缘的y
             float translationY = mItemY + mTitleBarHeight - scaledY;
             ObjectAnimator translationXAnim = ObjectAnimator.ofFloat(viewPager, "translationX", translationX);
             ObjectAnimator translationYAnim = ObjectAnimator.ofFloat(viewPager, "translationY", translationY);
-            set.play(maskAnim).with(scaleXAnim).with(scaleYAnim).with(translationXAnim).with(translationYAnim);
+            set.play(maskAnim).with(indexAnim).with(scaleXAnim).with(scaleYAnim).with(translationXAnim).with(translationYAnim);
         }
 
         set.setDuration(350);
@@ -173,12 +180,13 @@ public class ImagePreviewActivity extends FragmentActivity {
         viewPager.setTranslationX(translationX);
         viewPager.setTranslationY(translationY);
         ObjectAnimator maskAnim = ObjectAnimator.ofFloat(maskView, "alpha", 0, 1);
+        ObjectAnimator indexAnim = ObjectAnimator.ofFloat(mTvIndex, "alpha", 0, 1);
         ObjectAnimator xAnim = ObjectAnimator.ofFloat(viewPager, "scaleX", scaleX, 1f);
         ObjectAnimator yAnim = ObjectAnimator.ofFloat(viewPager, "scaleY", scaleY, 1f);
         ObjectAnimator xPivot = ObjectAnimator.ofFloat(viewPager, "translationX", 0 );
         ObjectAnimator yPivot = ObjectAnimator.ofFloat(viewPager, "translationY", 0);
         AnimatorSet set = new AnimatorSet();
-        set.play(maskAnim).with(xAnim).with(yAnim).with(xPivot).with(yPivot);
+        set.play(maskAnim).with(indexAnim).with(xAnim).with(yAnim).with(xPivot).with(yPivot);
         set.setDuration(350);
         set.start();
     }
