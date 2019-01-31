@@ -139,12 +139,7 @@ public class ImagePreviewActivity extends FragmentActivity {
             }
         });
 
-        if (mImageUrls.size() == 1) {
-            // 如果只有一张图片，不显示序号
-            mTvIndex.setVisibility(View.GONE);
-        } else {
-            mTvIndex.setText(getResources().getString(R.string.photo_number_format, mCurrentPosition + 1, mImageUrls.size()));
-        }
+        mTvIndex.setText(getResources().getString(R.string.photo_number_format, mCurrentPosition + 1, mImageUrls.size()));
     }
 
     private void startEnterAnim() {
