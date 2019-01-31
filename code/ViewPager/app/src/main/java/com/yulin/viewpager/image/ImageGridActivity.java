@@ -10,13 +10,12 @@ import com.yulin.viewpager.R;
 import com.yulin.viewpager.Tool;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ImageGridActivity extends AppCompatActivity implements ImageGridAdapter.OnItemClickListener {
 
     private static final String TAG = "houchenl-ImageGrid";
 
-    private List<String> images = new ArrayList<>();
+    private ArrayList<String> images = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +40,7 @@ public class ImageGridActivity extends AppCompatActivity implements ImageGridAda
     public void onItemClick(int position, float x, float y, int width, int height) {
         Log.d(TAG, "onItemClick: position " + position);
         int titleBarHeight = Tool.getTitleBarHeight(this);
-        ImagePreviewActivity.startActivity(this, position, x, y, width, height, titleBarHeight);
+        ImagePreviewActivity.startActivity(this, images, position, x, y, width, height, titleBarHeight);
     }
 
     private void initData() {
@@ -65,4 +64,5 @@ public class ImageGridActivity extends AppCompatActivity implements ImageGridAda
         images.add("https://yulinwork.oss-cn-hangzhou.aliyuncs.com/image/yunhaifu18.jpg");
         images.add("https://yulinwork.oss-cn-hangzhou.aliyuncs.com/image/yunhaifu19.jpg");
     }
+
 }

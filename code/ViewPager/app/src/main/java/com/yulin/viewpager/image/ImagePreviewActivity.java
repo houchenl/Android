@@ -12,13 +12,13 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.yulin.viewpager.R;
 import com.yulin.viewpager.Tool;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 操作状态栏：https://blog.csdn.net/chazihong/article/details/70228933
@@ -27,6 +27,7 @@ public class ImagePreviewActivity extends FragmentActivity {
 
     private static final String TAG = "houchenl-PreviewActivit";
 
+    private static final String EXTRA_IMAGES = "extra_images";
     private static final String EXTRA_POSITION = "extra_position";
     private static final String EXTRA_ITEM_X = "extra_pivot_x";
     private static final String EXTRA_ITEM_Y = "extra_pivot_y";
@@ -34,7 +35,7 @@ public class ImagePreviewActivity extends FragmentActivity {
     private static final String EXTRA_ITEM_HEIGHT = "extra_height";
     private static final String EXTRA_TITLE_BAR_HEIGHT = "extra_title_bar_height";
 
-    private List<String> images = new ArrayList<>();
+    private ArrayList<String> mImageUrls = new ArrayList<>();
 
     private View maskView;
     private ViewPager viewPager;
@@ -52,8 +53,22 @@ public class ImagePreviewActivity extends FragmentActivity {
 
     private int mEnterPosition, mCurrentPosition;
 
-    public static void startActivity(Activity activity, int position, float x, float y, int width, int height, int titleBarHeight) {
+    public static void startActivity(Activity activity, ArrayList<String> urls, int position,
+                                     float x, float y, int width, int height, int titleBarHeight) {
+        if (activity == null) {
+            return;
+        }
+        if (urls == null || urls.size() < 1) {
+            Toast.makeText(activity, "预览图片为空", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (position >= urls.size() || position < 0) {
+            Toast.makeText(activity, "预览图片下标越界", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Intent intent = new Intent(activity, ImagePreviewActivity.class);
+        intent.putStringArrayListExtra(EXTRA_IMAGES, urls);
         intent.putExtra(EXTRA_POSITION, position);
         intent.putExtra(EXTRA_ITEM_X, x);
         intent.putExtra(EXTRA_ITEM_Y, y);
@@ -70,6 +85,7 @@ public class ImagePreviewActivity extends FragmentActivity {
 
         Intent intent = getIntent();
         if (intent != null) {
+            mImageUrls = intent.getStringArrayListExtra(EXTRA_IMAGES);
             mCurrentPosition = intent.getIntExtra(EXTRA_POSITION, 0);
             mEnterPosition = mCurrentPosition;
             mItemX = intent.getFloatExtra(EXTRA_ITEM_X, 0f);
@@ -79,11 +95,10 @@ public class ImagePreviewActivity extends FragmentActivity {
             mTitleBarHeight = intent.getIntExtra(EXTRA_TITLE_BAR_HEIGHT, 0);
         }
 
-        initData();
         mScreenWidth = Tool.getScreenWidth(this);
         mScreenHeight = Tool.getScreenHeight(this);
 
-        ImageFragmentPagerAdapter adapter = new ImageFragmentPagerAdapter(getSupportFragmentManager(), images);
+        ImageFragmentPagerAdapter adapter = new ImageFragmentPagerAdapter(getSupportFragmentManager(), mImageUrls);
 
         maskView = findViewById(R.id.mask_view);
         viewPager = findViewById(R.id.view_pager);
@@ -91,7 +106,7 @@ public class ImagePreviewActivity extends FragmentActivity {
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(mEnterPosition);
 
-        mTvIndex.setText((mCurrentPosition + 1) + "/" + images.size());
+        mTvIndex.setText(getResources().getString(R.string.photo_number_format, mCurrentPosition + 1, mImageUrls.size()));
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -103,7 +118,7 @@ public class ImagePreviewActivity extends FragmentActivity {
             public void onPageSelected(int i) {
                 mCurrentPosition = i;
                 Log.d(TAG, "onPageSelected: " + i);
-                mTvIndex.setText((mCurrentPosition + 1) + "/" + images.size());
+                mTvIndex.setText(getResources().getString(R.string.photo_number_format, mCurrentPosition + 1, mImageUrls.size()));
             }
 
             @Override
@@ -189,28 +204,6 @@ public class ImagePreviewActivity extends FragmentActivity {
         set.play(maskAnim).with(indexAnim).with(xAnim).with(yAnim).with(xPivot).with(yPivot);
         set.setDuration(350);
         set.start();
-    }
-
-    private void initData() {
-        images.add("https://yulinwork.oss-cn-hangzhou.aliyuncs.com/image/yunhaifu01.jpg");
-        images.add("https://yulinwork.oss-cn-hangzhou.aliyuncs.com/image/yunhaifu02.jpg");
-        images.add("https://yulinwork.oss-cn-hangzhou.aliyuncs.com/image/yunhaifu03.jpg");
-        images.add("https://yulinwork.oss-cn-hangzhou.aliyuncs.com/image/yunhaifu04.jpg");
-        images.add("https://yulinwork.oss-cn-hangzhou.aliyuncs.com/image/yunhaifu05.jpg");
-        images.add("https://yulinwork.oss-cn-hangzhou.aliyuncs.com/image/yunhaifu06.jpg");
-        images.add("https://yulinwork.oss-cn-hangzhou.aliyuncs.com/image/yunhaifu07.jpg");
-        images.add("https://yulinwork.oss-cn-hangzhou.aliyuncs.com/image/yunhaifu08.jpg");
-        images.add("https://yulinwork.oss-cn-hangzhou.aliyuncs.com/image/yunhaifu09.jpg");
-        images.add("https://yulinwork.oss-cn-hangzhou.aliyuncs.com/image/yunhaifu10.jpg");
-        images.add("https://yulinwork.oss-cn-hangzhou.aliyuncs.com/image/yunhaifu11.jpg");
-        images.add("https://yulinwork.oss-cn-hangzhou.aliyuncs.com/image/yunhaifu12.jpg");
-        images.add("https://yulinwork.oss-cn-hangzhou.aliyuncs.com/image/yunhaifu13.jpg");
-        images.add("https://yulinwork.oss-cn-hangzhou.aliyuncs.com/image/yunhaifu14.jpg");
-        images.add("https://yulinwork.oss-cn-hangzhou.aliyuncs.com/image/yunhaifu15.jpg");
-        images.add("https://yulinwork.oss-cn-hangzhou.aliyuncs.com/image/yunhaifu16.jpg");
-        images.add("https://yulinwork.oss-cn-hangzhou.aliyuncs.com/image/yunhaifu17.jpg");
-        images.add("https://yulinwork.oss-cn-hangzhou.aliyuncs.com/image/yunhaifu18.jpg");
-        images.add("https://yulinwork.oss-cn-hangzhou.aliyuncs.com/image/yunhaifu19.jpg");
     }
 
 }
