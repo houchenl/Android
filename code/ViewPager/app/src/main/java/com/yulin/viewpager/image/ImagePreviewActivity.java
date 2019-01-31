@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 /**
  * 操作状态栏：https://blog.csdn.net/chazihong/article/details/70228933
- * */
+ */
 public class ImagePreviewActivity extends FragmentActivity {
 
     private static final String TAG = "houchenl-PreviewActivit";
@@ -43,7 +43,7 @@ public class ImagePreviewActivity extends FragmentActivity {
 
     /**
      * 点击的待预览图片在原界面的x,y及宽高
-     * */
+     */
     private float mItemX;
     private float mItemY;
     private int mItemWidth, mItemHeight;
@@ -83,6 +83,19 @@ public class ImagePreviewActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_preview);
 
+        initData();
+        initView();
+        startEnterAnim();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        Glide.with(this).onStop();
+    }
+
+    private void initData() {
         Intent intent = getIntent();
         if (intent != null) {
             mImageUrls = intent.getStringArrayListExtra(EXTRA_IMAGES);
@@ -97,17 +110,16 @@ public class ImagePreviewActivity extends FragmentActivity {
 
         mScreenWidth = Tool.getScreenWidth(this);
         mScreenHeight = Tool.getScreenHeight(this);
+    }
 
-        ImageFragmentPagerAdapter adapter = new ImageFragmentPagerAdapter(getSupportFragmentManager(), mImageUrls);
-
+    private void initView() {
         maskView = findViewById(R.id.mask_view);
         viewPager = findViewById(R.id.view_pager);
         mTvIndex = findViewById(R.id.tv_index);
+
+        ImageFragmentPagerAdapter adapter = new ImageFragmentPagerAdapter(getSupportFragmentManager(), mImageUrls);
         viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(mEnterPosition);
-
-        mTvIndex.setText(getResources().getString(R.string.photo_number_format, mCurrentPosition + 1, mImageUrls.size()));
-
+        viewPager.setCurrentItem(mCurrentPosition);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
@@ -127,14 +139,36 @@ public class ImagePreviewActivity extends FragmentActivity {
             }
         });
 
-        enterAnim();
+        if (mImageUrls.size() == 1) {
+            // 如果只有一张图片，不显示序号
+            mTvIndex.setVisibility(View.GONE);
+        } else {
+            mTvIndex.setText(getResources().getString(R.string.photo_number_format, mCurrentPosition + 1, mImageUrls.size()));
+        }
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
+    private void startEnterAnim() {
+        float scaledItemRealHeight = mScreenWidth * mItemHeight / mItemWidth;
+        float scaleX = mItemWidth / mScreenWidth;
+        float scaleY = mItemHeight / scaledItemRealHeight;
 
-        Glide.with(this).onStop();
+        float translationX = mItemX - (1 - scaleX) * mScreenWidth / 2;
+        float scaledY = (mScreenHeight - mItemHeight) / 2;  // ViewPager缩放后图片上边缘的y
+        float translationY = mItemY + mTitleBarHeight - scaledY;
+
+        // 启动预览时，背景色从透明到黑色渐变
+        viewPager.setTranslationX(translationX);
+        viewPager.setTranslationY(translationY);
+        ObjectAnimator maskAnim = ObjectAnimator.ofFloat(maskView, "alpha", 0, 1);
+        ObjectAnimator indexAnim = ObjectAnimator.ofFloat(mTvIndex, "alpha", 0, 1);
+        ObjectAnimator xAnim = ObjectAnimator.ofFloat(viewPager, "scaleX", scaleX, 1f);
+        ObjectAnimator yAnim = ObjectAnimator.ofFloat(viewPager, "scaleY", scaleY, 1f);
+        ObjectAnimator xPivot = ObjectAnimator.ofFloat(viewPager, "translationX", 0);
+        ObjectAnimator yPivot = ObjectAnimator.ofFloat(viewPager, "translationY", 0);
+        AnimatorSet set = new AnimatorSet();
+        set.play(maskAnim).with(indexAnim).with(xAnim).with(yAnim).with(xPivot).with(yPivot);
+        set.setDuration(350);
+        set.start();
     }
 
     public void finishActivity() {
@@ -179,30 +213,6 @@ public class ImagePreviewActivity extends FragmentActivity {
                 ImagePreviewActivity.this.finish();
             }
         });
-        set.start();
-    }
-
-    private void enterAnim() {
-        float scaledItemRealHeight = mScreenWidth * mItemHeight / mItemWidth;
-        float scaleX = mItemWidth / mScreenWidth;
-        float scaleY = mItemHeight / scaledItemRealHeight;
-
-        float translationX = mItemX - (1 - scaleX) * mScreenWidth / 2;
-        float scaledY = (mScreenHeight - mItemHeight) / 2;  // ViewPager缩放后图片上边缘的y
-        float translationY = mItemY + mTitleBarHeight - scaledY;
-
-        // 启动预览时，背景色从透明到黑色渐变
-        viewPager.setTranslationX(translationX);
-        viewPager.setTranslationY(translationY);
-        ObjectAnimator maskAnim = ObjectAnimator.ofFloat(maskView, "alpha", 0, 1);
-        ObjectAnimator indexAnim = ObjectAnimator.ofFloat(mTvIndex, "alpha", 0, 1);
-        ObjectAnimator xAnim = ObjectAnimator.ofFloat(viewPager, "scaleX", scaleX, 1f);
-        ObjectAnimator yAnim = ObjectAnimator.ofFloat(viewPager, "scaleY", scaleY, 1f);
-        ObjectAnimator xPivot = ObjectAnimator.ofFloat(viewPager, "translationX", 0 );
-        ObjectAnimator yPivot = ObjectAnimator.ofFloat(viewPager, "translationY", 0);
-        AnimatorSet set = new AnimatorSet();
-        set.play(maskAnim).with(indexAnim).with(xAnim).with(yAnim).with(xPivot).with(yPivot);
-        set.setDuration(350);
         set.start();
     }
 
