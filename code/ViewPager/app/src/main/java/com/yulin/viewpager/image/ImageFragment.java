@@ -18,8 +18,8 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.github.chrisbanes.photoview.PhotoView;
 import com.yulin.viewpager.R;
+import com.yulin.viewpager.photoview.PhotoView;
 
 public class ImageFragment extends Fragment implements View.OnClickListener {
 

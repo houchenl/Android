@@ -1,4 +1,4 @@
-package com.github.chrisbanes.photoview;
+package com.yulin.viewpager.photoview;
 
 import android.graphics.RectF;
 
