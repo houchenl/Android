@@ -1,7 +1,6 @@
 package com.yulin.viewpager.image;
 
 import android.app.Activity;
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,6 +11,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.yulin.viewpager.R;
+import com.yulin.viewpager.Tool;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Imag
     private static final String TAG = "houchenl-GridAdapter";
 
     private List<String> urls;
-    private Context context;
+    private Activity context;
 
     private OnItemClickListener mOnClickListener;
 
@@ -40,7 +40,9 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Imag
     // 每个item执行一次
     @Override
     public void onBindViewHolder(@NonNull final ImageGridViewHolder holder, int i) {
-        Glide.with(context).load(urls.get(i)).into(holder.imageView);
+        int resizeWidth = Tool.getScreenWidth(context) / 3;
+        String url = urls.get(i) + "?resize=" + resizeWidth + ":x";
+        Glide.with(context).load(url).into(holder.imageView);
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,11 +83,11 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Imag
 
     public interface OnItemClickListener {
         /**
-         * @param x 点击item的x
-         * @param y 点击item的y
-         * @param width 点击item的width
+         * @param x      点击item的x
+         * @param y      点击item的y
+         * @param width  点击item的width
          * @param height 点击item的height
-         * */
+         */
         void onItemClick(int position, float x, float y, int width, int height);
     }
 

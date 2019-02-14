@@ -15,6 +15,16 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_centerInParent="true"
-        android:visibility="visible" />
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_load_origin_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:text="@string/load_origin_image"
+        android:visibility="gone" />
 
 </RelativeLayout>

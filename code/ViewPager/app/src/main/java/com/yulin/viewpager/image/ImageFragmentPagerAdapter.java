@@ -10,7 +10,7 @@ public class ImageFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<String> images;
 
-    public ImageFragmentPagerAdapter(FragmentManager fm, List<String> images) {
+    ImageFragmentPagerAdapter(FragmentManager fm, List<String> images) {
         super(fm);
         this.images = images;
     }

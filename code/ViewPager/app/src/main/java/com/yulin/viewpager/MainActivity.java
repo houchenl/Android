@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.yulin.viewpager.fragment.BasicFragmentSlideActivity;
 import com.yulin.viewpager.image.ImageGridActivity;
+import com.yulin.viewpager.size.GetImageSizeActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +23,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void startImagePreview(View view) {
         startActivity(new Intent(this, ImageGridActivity.class));
+    }
+
+    public void getImageSize(View view) {
+        startActivity(new Intent(this, GetImageSizeActivity.class));
     }
 
 }

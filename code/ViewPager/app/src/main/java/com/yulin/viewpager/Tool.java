@@ -69,4 +69,17 @@ public class Tool {
         return statusBarHeight;
     }
 
+    /**
+     * 大屏显示图片时，是否需要下载原图
+     * 如果需要，则先显示压缩图，再下载原图。如果不需要，直接显示原图。
+     * 如果图片宽度大小屏幕宽度的1.2倍，或者图片高度大于屏幕高度的1.2倍，需要下载原图。
+     * @param width 原图宽度
+     * @param height 原图高度
+     * */
+    public static boolean isDownloadOriginImage(Activity activity, int width, int height) {
+        int screenWidth = getScreenWidth(activity);
+        int screenHeight = getScreenHeight(activity);
+        return width > screenWidth * 1.2 || height > screenHeight * 1.2;
+    }
+
 }

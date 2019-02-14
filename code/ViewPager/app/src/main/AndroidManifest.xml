@@ -24,6 +24,7 @@
             android:name=".image.ImagePreviewActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
         <activity android:name=".image.ImageGridActivity" />
+        <activity android:name=".size.GetImageSizeActivity"></activity>
     </application>
 
 </manifest>

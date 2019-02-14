@@ -7,7 +7,6 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="startTextSlide"
@@ -15,11 +14,17 @@
         android:textAllCaps="false" />
 
     <Button
-        android:id="@+id/button2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="startImagePreview"
         android:text="image preview"
+        android:textAllCaps="false" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="getImageSize"
+        android:text="get image size"
         android:textAllCaps="false" />
 
 </LinearLayout>

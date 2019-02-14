@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 /**
  * 操作状态栏：https://blog.csdn.net/chazihong/article/details/70228933
+ * https://kano.guahao-test.com/Lka28048753?resize=200x400
  */
 public class ImagePreviewActivity extends FragmentActivity {
 
