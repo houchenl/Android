@@ -10,8 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -60,7 +60,7 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
 
     private ProgressBar mLoadingBar;
     private PhotoView mImageView;
-    private Button mBtnLoadOriginImage;
+    private TextView mTvImageSize;
 
     private Disposable disposable;
 
@@ -90,10 +90,10 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_image, container, false);
         mLoadingBar = view.findViewById(R.id.loading);
         mImageView = view.findViewById(R.id.image);
-        mBtnLoadOriginImage = view.findViewById(R.id.btn_load_origin_image);
+        mTvImageSize = view.findViewById(R.id.tv_origin_image_size);
 
         mImageView.setOnClickListener(this);
-        mBtnLoadOriginImage.setOnClickListener(this);
+        mTvImageSize.setOnClickListener(this);
 
         return view;
     }
@@ -132,7 +132,7 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
                 ImagePreviewActivity previewActivity = (ImagePreviewActivity) activity;
                 previewActivity.finishActivity();
             }
-        } else if (vid == R.id.btn_load_origin_image) {
+        } else if (vid == R.id.tv_origin_image_size) {
             loadImageFromNetwork(mImagePath, true);
         }
     }
@@ -154,14 +154,14 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
                 .addListener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        Log.d(TAG, "onLoadFailed: " + mImagePath);
+//                        Log.d(TAG, "onLoadFailed: " + mImagePath);
                         getNetworkImageSize();
                         return false;
                     }
 
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        Log.d(TAG, "onResourceReady: " + mImagePath);
+//                        Log.d(TAG, "onResourceReady: " + mImagePath);
                         return false;
                     }
                 }).into(mImageView);
@@ -205,7 +205,9 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
                             if (sizeObject != null && sizeObject.has("value")) {
                                 String value = sizeObject.getString("value");
                                 long size = Long.parseLong(value);
-                                Log.d(TAG, "apply: size " + size);
+                                String formatSize = getFormatSize(size);
+                                mTvImageSize.setText(getResources().getString(R.string.load_origin_image, formatSize));
+//                                Log.d(TAG, "apply: size " + size + ", formatSize " + formatSize);
                             }
                         }
 
@@ -216,7 +218,7 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
                             if (widthObject != null && widthObject.has("value")) {
                                 String value = widthObject.getString("value");
                                 width = Integer.parseInt(value);
-                                Log.d(TAG, "apply: width " + width);
+//                                Log.d(TAG, "apply: width " + width);
                             }
                         }
 
@@ -227,7 +229,7 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
                             if (heightObject != null && heightObject.has("value")) {
                                 String value = heightObject.getString("value");
                                 height = Integer.parseInt(value);
-                                Log.d(TAG, "apply: height " + height);
+//                                Log.d(TAG, "apply: height " + height);
                             }
                         }
 
@@ -257,9 +259,9 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
     private void loadImageFromNetwork(String imagePath, final boolean isShowOrigin) {
         mLoadingBar.setVisibility(View.VISIBLE);
         if (isShowOrigin) {
-            mBtnLoadOriginImage.setVisibility(View.GONE);
+            mTvImageSize.setVisibility(View.GONE);
         } else {
-            mBtnLoadOriginImage.setVisibility(View.VISIBLE);
+            mTvImageSize.setVisibility(View.VISIBLE);
         }
 
         GlideApp
@@ -270,7 +272,7 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                         mLoadingBar.setVisibility(View.GONE);
                         if (isShowOrigin) {
-                            mBtnLoadOriginImage.setVisibility(View.VISIBLE);
+                            mTvImageSize.setVisibility(View.VISIBLE);
                         }
                         Toast.makeText(getContext(), R.string.load_image_fail, Toast.LENGTH_SHORT).show();
                         return false;
@@ -282,6 +284,18 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
                         return false;
                     }
                 }).into(mImageView);
+    }
+
+    private String getFormatSize(long bytes) {
+        if (bytes > 1024 * 1024) {
+            // 大于1M
+            int size = (int) (bytes / 1024 / 1024);
+            return size + "M";
+        } else {
+            // nK
+            int size = (int) (bytes / 1024);
+            return size + "K";
+        }
     }
 
 }
