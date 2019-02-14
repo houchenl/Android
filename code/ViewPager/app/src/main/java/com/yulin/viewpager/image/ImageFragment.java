@@ -1,7 +1,6 @@
 package com.yulin.viewpager.image;
 
 import android.app.Activity;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -25,6 +24,9 @@ import com.yulin.viewpager.R;
 import com.yulin.viewpager.Tool;
 import com.yulin.viewpager.photoview.PhotoView;
 
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -37,11 +39,16 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
+ * 获取缩放后的图片
  * https://help.aliyun.com/document_detail/44688.html
- * */
+ * <p>
+ * 获取图片信息
+ * https://help.aliyun.com/document_detail/44975.html?spm=a2c4g.11186623.6.1220.61a5c1f6j88gPm#h2-url-2
+ */
 public class ImageFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "ImageFragment";
@@ -161,17 +168,25 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
     }
 
     private void getNetworkImageSize() {
-        disposable = Observable.create(new ObservableOnSubscribe<BitmapFactory.Options>() {
+        mLoadingBar.setVisibility(View.VISIBLE);
+        disposable = Observable.create(new ObservableOnSubscribe<String>() {
             @Override
-            public void subscribe(ObservableEmitter<BitmapFactory.Options> emitter) {
+            public void subscribe(ObservableEmitter<String> emitter) {
                 try {
-                    URL url = new URL(mImagePath);
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    InputStream is = connection.getInputStream();
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inJustDecodeBounds = true;
-                    BitmapFactory.decodeStream(is, null, options);
-                    emitter.onNext(options);
+                    URL url = new URL(mImagePath + "?x-oss-process=image/info");
+                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    if (200 == urlConnection.getResponseCode()) {
+                        InputStream is = urlConnection.getInputStream();
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        byte[] buffer = new byte[1024];
+                        int len;
+                        while (-1 != (len = is.read(buffer))) {
+                            baos.write(buffer, 0, len);
+                            baos.flush();
+                        }
+                        String response = baos.toString("utf-8");
+                        emitter.onNext(response);
+                    }
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -179,15 +194,52 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
                 }
             }
         })
+                .map(new Function<String, Boolean>() {
+                    @Override
+                    public Boolean apply(String responseJson) throws Exception {
+                        JSONObject jsonObject = new JSONObject(responseJson);
+
+                        // get file size
+                        if (jsonObject.has("FileSize")) {
+                            JSONObject sizeObject = jsonObject.getJSONObject("FileSize");
+                            if (sizeObject != null && sizeObject.has("value")) {
+                                String value = sizeObject.getString("value");
+                                long size = Long.parseLong(value);
+                                Log.d(TAG, "apply: size " + size);
+                            }
+                        }
+
+                        // get width
+                        int width = 0;
+                        if (jsonObject.has("ImageWidth")) {
+                            JSONObject widthObject = jsonObject.getJSONObject("ImageWidth");
+                            if (widthObject != null && widthObject.has("value")) {
+                                String value = widthObject.getString("value");
+                                width = Integer.parseInt(value);
+                                Log.d(TAG, "apply: width " + width);
+                            }
+                        }
+
+                        // get height
+                        int height = 0;
+                        if (jsonObject.has("ImageHeight")) {
+                            JSONObject heightObject = jsonObject.getJSONObject("ImageHeight");
+                            if (heightObject != null && heightObject.has("value")) {
+                                String value = heightObject.getString("value");
+                                height = Integer.parseInt(value);
+                                Log.d(TAG, "apply: height " + height);
+                            }
+                        }
+
+                        return Tool.isDownloadOriginImage(getActivity(), width, height);
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<BitmapFactory.Options>() {
+                .subscribe(new Consumer<Boolean>() {
                     @Override
-                    public void accept(BitmapFactory.Options options) {
-                        int width = options.outWidth;
-                        int height = options.outHeight;
-                        boolean isDownloadOrigin = Tool.isDownloadOriginImage(getActivity(), width, height);
-
+                    public void accept(Boolean isDownloadOrigin) {
+                        mLoadingBar.setVisibility(View.GONE);
                         // ?x-oss-process=image/resize,m_lfit,w_836
                         String imagePath = mImagePath;
                         if (isDownloadOrigin) {

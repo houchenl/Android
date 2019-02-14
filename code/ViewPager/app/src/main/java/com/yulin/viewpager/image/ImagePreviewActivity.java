@@ -93,7 +93,7 @@ public class ImagePreviewActivity extends FragmentActivity {
     protected void onStop() {
         super.onStop();
 
-        Glide.with(this).onStop();
+//        Glide.with(this).onStop();
     }
 
     private void initData() {
