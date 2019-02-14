@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
@@ -24,6 +24,7 @@ import com.yulin.viewpager.R;
 import com.yulin.viewpager.Tool;
 import com.yulin.viewpager.photoview.PhotoView;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -51,8 +52,6 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class ImageFragment extends Fragment implements View.OnClickListener {
 
-    private static final String TAG = "ImageFragment";
-
     private static final String EXTRA_IMAGE = "extra_image";
     private static final String EXTRA_POSITION = "extra_position";
 
@@ -63,6 +62,7 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
     private TextView mTvImageSize;
 
     private Disposable disposable;
+    private String fileSize;
 
     public static ImageFragment getInstance(String imagePath, int position) {
         Bundle args = new Bundle();
@@ -103,7 +103,7 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
         super.onResume();
 
         // load image onResume
-        loadImageFromCache();
+        loadOriginImageFromCache();
     }
 
     @Override
@@ -139,32 +139,42 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
 
     /**
      * 显示图片
-     * 1. 首先只从缓存中加载原图，如果加载成功，return，如果加载失败，继续
-     * 2. 获取网络图片宽高，本机屏幕宽高
-     * 3. 判断是否显示原图
+     * 1. 从缓存中加载原图，如果加载成功，return，否则继续
+     * 2. 从缓存中加载大图(宽度等于屏幕)，如果加载成功，return，否则继续从网络获取图片
+     * 3. 获取网络图片宽高，本机屏幕宽高，判断是否显示原图
      * 4. 若直接显示原图，加载并显示原图
-     * 5. 若先显示缩小版，加载显示缩小版，并显示显示原图按钮
+     * 5. 若先显示大图，加载显示大图，并显示查看原图按钮
      */
-    private void loadImageFromCache() {
+    private void loadOriginImageFromCache() {
         // 只从缓存加载原图，如果失败，继续从网络获取
         GlideApp
                 .with(this)
                 .load(mImagePath)
                 .onlyRetrieveFromCache(true)
+                .error(loadBigImageFromCache())
+                .into(mImageView);
+    }
+
+    /**
+     * 从缓存中加载大图(宽度等于屏幕宽度)
+     */
+    private RequestBuilder<Drawable> loadBigImageFromCache() {
+        return GlideApp
+                .with(this)
+                .load(getBigImagePath())
+                .onlyRetrieveFromCache(true)
                 .addListener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-//                        Log.d(TAG, "onLoadFailed: " + mImagePath);
                         getNetworkImageSize();
                         return false;
                     }
 
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-//                        Log.d(TAG, "onResourceReady: " + mImagePath);
                         return false;
                     }
-                }).into(mImageView);
+                });
     }
 
     private void getNetworkImageSize() {
@@ -172,68 +182,13 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
         disposable = Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(ObservableEmitter<String> emitter) {
-                try {
-                    URL url = new URL(mImagePath + "?x-oss-process=image/info");
-                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                    if (200 == urlConnection.getResponseCode()) {
-                        InputStream is = urlConnection.getInputStream();
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        byte[] buffer = new byte[1024];
-                        int len;
-                        while (-1 != (len = is.read(buffer))) {
-                            baos.write(buffer, 0, len);
-                            baos.flush();
-                        }
-                        String response = baos.toString("utf-8");
-                        emitter.onNext(response);
-                    }
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                getImageInfo(emitter);
             }
         })
                 .map(new Function<String, Boolean>() {
                     @Override
-                    public Boolean apply(String responseJson) throws Exception {
-                        JSONObject jsonObject = new JSONObject(responseJson);
-
-                        // get file size
-                        if (jsonObject.has("FileSize")) {
-                            JSONObject sizeObject = jsonObject.getJSONObject("FileSize");
-                            if (sizeObject != null && sizeObject.has("value")) {
-                                String value = sizeObject.getString("value");
-                                long size = Long.parseLong(value);
-                                String formatSize = getFormatSize(size);
-                                mTvImageSize.setText(getResources().getString(R.string.load_origin_image, formatSize));
-//                                Log.d(TAG, "apply: size " + size + ", formatSize " + formatSize);
-                            }
-                        }
-
-                        // get width
-                        int width = 0;
-                        if (jsonObject.has("ImageWidth")) {
-                            JSONObject widthObject = jsonObject.getJSONObject("ImageWidth");
-                            if (widthObject != null && widthObject.has("value")) {
-                                String value = widthObject.getString("value");
-                                width = Integer.parseInt(value);
-//                                Log.d(TAG, "apply: width " + width);
-                            }
-                        }
-
-                        // get height
-                        int height = 0;
-                        if (jsonObject.has("ImageHeight")) {
-                            JSONObject heightObject = jsonObject.getJSONObject("ImageHeight");
-                            if (heightObject != null && heightObject.has("value")) {
-                                String value = heightObject.getString("value");
-                                height = Integer.parseInt(value);
-//                                Log.d(TAG, "apply: height " + height);
-                            }
-                        }
-
-                        return Tool.isDownloadOriginImage(getActivity(), width, height);
+                    public Boolean apply(String responseJson) {
+                        return parseImageInfo(responseJson);
                     }
                 })
                 .subscribeOn(Schedulers.io())
@@ -242,10 +197,12 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void accept(Boolean isDownloadOrigin) {
                         mLoadingBar.setVisibility(View.GONE);
+                        mTvImageSize.setText(getResources().getString(R.string.load_origin_image, fileSize));
+
                         // ?x-oss-process=image/resize,m_lfit,w_836
                         String imagePath = mImagePath;
                         if (isDownloadOrigin) {
-                            imagePath = mImagePath + "?x-oss-process=image/resize,m_lfit,w_" + Tool.getScreenWidth(getActivity());
+                            imagePath = getBigImagePath();
                         }
                         loadImageFromNetwork(imagePath, !isDownloadOrigin);
                     }
@@ -254,11 +211,11 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
 
     /**
      * @param imagePath    网络图片地址
-     * @param isShowOrigin 是否是原图
+     * @param isOrigin 是否是原图
      */
-    private void loadImageFromNetwork(String imagePath, final boolean isShowOrigin) {
+    private void loadImageFromNetwork(String imagePath, final boolean isOrigin) {
         mLoadingBar.setVisibility(View.VISIBLE);
-        if (isShowOrigin) {
+        if (isOrigin) {
             mTvImageSize.setVisibility(View.GONE);
         } else {
             mTvImageSize.setVisibility(View.VISIBLE);
@@ -271,7 +228,7 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                         mLoadingBar.setVisibility(View.GONE);
-                        if (isShowOrigin) {
+                        if (isOrigin) {
                             mTvImageSize.setVisibility(View.VISIBLE);
                         }
                         Toast.makeText(getContext(), R.string.load_image_fail, Toast.LENGTH_SHORT).show();
@@ -296,6 +253,85 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
             int size = (int) (bytes / 1024);
             return size + "K";
         }
+    }
+
+    private String getBigImagePath() {
+        int requiredWidth = Tool.getScreenWidth(getActivity()) * 2 / 3;
+        int requiredHeight = Tool.getScreenHeight(getActivity());
+        return mImagePath + "?x-oss-process=image/resize,m_lfit,w_" + requiredWidth + ",h_" + requiredHeight;
+    }
+
+    /**
+     * 获取图片信息
+     * */
+    private void getImageInfo(ObservableEmitter<String> emitter) {
+        try {
+            URL url = new URL(mImagePath + "?x-oss-process=image/info");
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            if (200 == urlConnection.getResponseCode()) {
+                InputStream is = urlConnection.getInputStream();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                byte[] buffer = new byte[1024];
+                int len;
+                while (-1 != (len = is.read(buffer))) {
+                    baos.write(buffer, 0, len);
+                    baos.flush();
+                }
+                String response = baos.toString("utf-8");
+                emitter.onNext(response);
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 解析图片信息，获取图片宽度、高度、大小
+     * @return 是否下载原图
+     * */
+    private boolean parseImageInfo(String responseJson) {
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(responseJson);
+
+            // get file size
+            if (jsonObject.has("FileSize")) {
+                JSONObject sizeObject = jsonObject.getJSONObject("FileSize");
+                if (sizeObject != null && sizeObject.has("value")) {
+                    String value = sizeObject.getString("value");
+                    long size = Long.parseLong(value);
+                    fileSize = getFormatSize(size);
+                }
+            }
+
+            // get width
+            int width = 0;
+            if (jsonObject.has("ImageWidth")) {
+                JSONObject widthObject = jsonObject.getJSONObject("ImageWidth");
+                if (widthObject != null && widthObject.has("value")) {
+                    String value = widthObject.getString("value");
+                    width = Integer.parseInt(value);
+                }
+            }
+
+            // get height
+            int height = 0;
+            if (jsonObject.has("ImageHeight")) {
+                JSONObject heightObject = jsonObject.getJSONObject("ImageHeight");
+                if (heightObject != null && heightObject.has("value")) {
+                    String value = heightObject.getString("value");
+                    height = Integer.parseInt(value);
+                }
+            }
+
+            return Tool.isDownloadOriginImage(getActivity(), width, height);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return true;
     }
 
 }

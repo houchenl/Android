@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.yulin.viewpager.R;
 import com.yulin.viewpager.Tool;
 
@@ -87,13 +86,6 @@ public class ImagePreviewActivity extends FragmentActivity {
         initData();
         initView();
         startEnterAnim();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-//        Glide.with(this).onStop();
     }
 
     private void initData() {

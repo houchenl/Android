@@ -44,7 +44,7 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Imag
         // ?x-oss-process=image/resize,m_lfit,w_836
         int resizeWidth = Tool.getScreenWidth(context) / 3;
 //        String url = urls.get(i) + "?resize=" + resizeWidth + ":x";
-        String url = urls.get(i) + "?x-oss-process=image/resize,m_lfit,w_" + resizeWidth;
+        String url = urls.get(i) + "?x-oss-process=image/resize,m_lfit,w_" + resizeWidth + ",h_" + 4 * resizeWidth;
         Glide.with(context).load(url).into(holder.imageView);
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
