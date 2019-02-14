@@ -39,6 +39,9 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
+/**
+ * https://help.aliyun.com/document_detail/44688.html
+ * */
 public class ImageFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "ImageFragment";
@@ -185,9 +188,10 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
                         int height = options.outHeight;
                         boolean isDownloadOrigin = Tool.isDownloadOriginImage(getActivity(), width, height);
 
+                        // ?x-oss-process=image/resize,m_lfit,w_836
                         String imagePath = mImagePath;
                         if (isDownloadOrigin) {
-                            imagePath = mImagePath + "?resize=" + Tool.getScreenWidth(getActivity()) + ":x";
+                            imagePath = mImagePath + "?x-oss-process=image/resize,m_lfit,w_" + Tool.getScreenWidth(getActivity());
                         }
                         loadImageFromNetwork(imagePath, !isDownloadOrigin);
                     }

@@ -2,34 +2,6 @@ package com.yulin.viewpager;
 
 public class Data {
 
-    public static String[] imageUrls = {
-            "https://kano.guahao-test.com/qja28048791",
-            "https://kano.guahao-test.com/VN428048790",
-            "https://kano.guahao-test.com/7tC28048789",
-            "https://kano.guahao-test.com/p0m28048788",
-            "https://kano.guahao-test.com/XBr28048787",
-            "https://kano.guahao-test.com/T1W28048786",
-            "https://kano.guahao-test.com/ayA28048785",
-            "https://kano.guahao-test.com/dhT28048784",
-            "https://kano.guahao-test.com/0Bh28048783",
-            "https://kano.guahao-test.com/k9p28048792",
-            "https://kano.guahao-test.com/tqZ28048793",
-            "https://kano.guahao-test.com/OaS28048794",
-            "https://kano.guahao-test.com/gn928048795",
-            "https://kano.guahao-test.com/cJG28048796",
-            "https://kano.guahao-test.com/9pN28048797",
-            "https://kano.guahao-test.com/Jx928048798",
-            "https://kano.guahao-test.com/upx28048799",
-            "https://kano.guahao-test.com/4J628048800",
-            "https://kano.guahao-test.com/bsn28048802",
-            "https://kano.guahao-test.com/8UO28048803",
-            "https://kano.guahao-test.com/SW328048804",
-            "https://kano.guahao-test.com/SQY28048805",
-            "https://kano.guahao-test.com/k7k28048806",
-            "https://kano.guahao-test.com/bwP28048807",
-            "https://kano.guahao-test.com/jYI28048808"
-    };
-
     public static String[] aliyunImageUrls = {
             "https://yulinwork.oss-cn-hangzhou.aliyuncs.com/image/image01.jpg",
             "https://yulinwork.oss-cn-hangzhou.aliyuncs.com/image/image02.jpg",

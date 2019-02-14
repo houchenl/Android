@@ -46,8 +46,7 @@ public class ImageGridActivity extends AppCompatActivity implements ImageGridAda
     }
 
     private void initData() {
-        images.addAll(Arrays.asList(Data.imageUrls));
-//        images.addAll(Arrays.asList(Data.aliyunImageUrls));
+        images.addAll(Arrays.asList(Data.aliyunImageUrls));
     }
 
 }

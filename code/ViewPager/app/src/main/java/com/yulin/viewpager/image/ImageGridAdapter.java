@@ -40,8 +40,11 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Imag
     // 每个item执行一次
     @Override
     public void onBindViewHolder(@NonNull final ImageGridViewHolder holder, int i) {
+        // ?resize=836:x
+        // ?x-oss-process=image/resize,m_lfit,w_836
         int resizeWidth = Tool.getScreenWidth(context) / 3;
-        String url = urls.get(i) + "?resize=" + resizeWidth + ":x";
+//        String url = urls.get(i) + "?resize=" + resizeWidth + ":x";
+        String url = urls.get(i) + "?x-oss-process=image/resize,m_lfit,w_" + resizeWidth;
         Glide.with(context).load(url).into(holder.imageView);
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
