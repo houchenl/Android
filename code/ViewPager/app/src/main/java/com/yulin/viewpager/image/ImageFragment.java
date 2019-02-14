@@ -133,7 +133,8 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
                 previewActivity.finishActivity();
             }
         } else if (vid == R.id.tv_origin_image_size) {
-            loadImageFromNetwork(mImagePath, true);
+            loadImageFromNetwork(mImagePath);
+            mTvImageSize.setVisibility(View.GONE);
         }
     }
 
@@ -166,18 +167,23 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
                 .addListener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        getNetworkImageSize();
+                        getNetworkImageSize(true);
                         return false;
                     }
 
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        getNetworkImageSize(false);
                         return false;
                     }
                 });
     }
 
-    private void getNetworkImageSize() {
+    /**
+     * 如果缓存中有大图，那么获取图片信息后，就不用再加载图片
+     * @param isLoad 获取图片信息后，是否需要加载
+     * */
+    private void getNetworkImageSize(final boolean isLoad) {
         mLoadingBar.setVisibility(View.VISIBLE);
         disposable = Observable.create(new ObservableOnSubscribe<String>() {
             @Override
@@ -199,27 +205,27 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
                         mLoadingBar.setVisibility(View.GONE);
                         mTvImageSize.setText(getResources().getString(R.string.load_origin_image, fileSize));
 
+                        // 如果需要下载原图，就显示查看原图按钮，否则隐藏
+                        mTvImageSize.setVisibility(isDownloadOrigin ? View.VISIBLE : View.GONE);
+
+                        // 如果不需要加载图片，return
+                        if (!isLoad) return;
+
                         // ?x-oss-process=image/resize,m_lfit,w_836
                         String imagePath = mImagePath;
                         if (isDownloadOrigin) {
                             imagePath = getBigImagePath();
                         }
-                        loadImageFromNetwork(imagePath, !isDownloadOrigin);
+                        loadImageFromNetwork(imagePath);
                     }
                 });
     }
 
     /**
      * @param imagePath    网络图片地址
-     * @param isOrigin 是否是原图
      */
-    private void loadImageFromNetwork(String imagePath, final boolean isOrigin) {
+    private void loadImageFromNetwork(String imagePath) {
         mLoadingBar.setVisibility(View.VISIBLE);
-        if (isOrigin) {
-            mTvImageSize.setVisibility(View.GONE);
-        } else {
-            mTvImageSize.setVisibility(View.VISIBLE);
-        }
 
         GlideApp
                 .with(this)
@@ -228,9 +234,7 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                         mLoadingBar.setVisibility(View.GONE);
-                        if (isOrigin) {
-                            mTvImageSize.setVisibility(View.VISIBLE);
-                        }
+                        mTvImageSize.setVisibility(View.VISIBLE);
                         Toast.makeText(getContext(), R.string.load_image_fail, Toast.LENGTH_SHORT).show();
                         return false;
                     }
