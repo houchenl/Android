@@ -1,6 +1,7 @@
 package com.yulin.viewpager.image;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,7 +19,9 @@ import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.yulin.viewpager.GlideApp;
 import com.yulin.viewpager.R;
 import com.yulin.viewpager.Tool;
@@ -229,26 +232,21 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
     private void loadImageFromNetwork(String imagePath) {
         mLoadingBar.setVisibility(View.VISIBLE);
 
-        GlideApp
-                .with(this)
-                .load(imagePath)
-                .addListener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model,
-                                                Target<Drawable> target, boolean isFirstResource) {
-                        mLoadingBar.setVisibility(View.GONE);
-                        setIsDisplayShowOrigin(true);
-                        Toast.makeText(getContext(), R.string.load_image_fail, Toast.LENGTH_SHORT).show();
-                        return false;
-                    }
+        Glide.with(this).asBitmap().load(imagePath).into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                mLoadingBar.setVisibility(View.GONE);
+                mImageView.setImageBitmap(resource);
+            }
 
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target,
-                                                   DataSource dataSource, boolean isFirstResource) {
-                        mLoadingBar.setVisibility(View.GONE);
-                        return false;
-                    }
-                }).into(mImageView);
+            @Override
+            public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                super.onLoadFailed(errorDrawable);
+                mLoadingBar.setVisibility(View.GONE);
+                setIsDisplayShowOrigin(true);
+                Toast.makeText(getContext(), R.string.load_image_fail, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private String getFormatSize(long bytes) {
@@ -264,7 +262,7 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
     }
 
     private String getBigImagePath() {
-        int requiredWidth = Tool.getScreenWidth(getActivity()) * 2 / 3;
+        int requiredWidth = Tool.getScreenWidth(getActivity()) * 4 / 5;
         int requiredHeight = Tool.getScreenHeight(getActivity());
         return mImagePath + "?x-oss-process=image/resize,m_lfit,w_" + requiredWidth + ",h_" + requiredHeight;
     }
