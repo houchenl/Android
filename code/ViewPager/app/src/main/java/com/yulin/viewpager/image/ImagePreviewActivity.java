@@ -153,12 +153,13 @@ public class ImagePreviewActivity extends FragmentActivity implements View.OnCli
         viewPager.setTranslationY(translationY);
         ObjectAnimator maskAnim = ObjectAnimator.ofFloat(maskView, "alpha", 0, 1);
         ObjectAnimator indexAnim = ObjectAnimator.ofFloat(mTvIndex, "alpha", 0, 1);
+        ObjectAnimator sizeAnim = ObjectAnimator.ofFloat(mTvOriginImageSize, "alpha", 0, 1);
         ObjectAnimator xAnim = ObjectAnimator.ofFloat(viewPager, "scaleX", scaleX, 1f);
         ObjectAnimator yAnim = ObjectAnimator.ofFloat(viewPager, "scaleY", scaleY, 1f);
         ObjectAnimator xPivot = ObjectAnimator.ofFloat(viewPager, "translationX", 0);
         ObjectAnimator yPivot = ObjectAnimator.ofFloat(viewPager, "translationY", 0);
         AnimatorSet set = new AnimatorSet();
-        set.play(maskAnim).with(indexAnim).with(xAnim).with(yAnim).with(xPivot).with(yPivot);
+        set.play(maskAnim).with(indexAnim).with(sizeAnim).with(xAnim).with(yAnim).with(xPivot).with(yPivot);
         set.setDuration(350);
         set.start();
     }
@@ -178,20 +179,21 @@ public class ImagePreviewActivity extends FragmentActivity implements View.OnCli
         // 停止预览时，背景色从透明到黑色渐变
         final ObjectAnimator maskAnim = ObjectAnimator.ofFloat(maskView, "alpha", 1, 0);
         final ObjectAnimator indexAnim = ObjectAnimator.ofFloat(mTvIndex, "alpha", 1, 0);
+        final ObjectAnimator sizeAnim = ObjectAnimator.ofFloat(mTvOriginImageSize, "alpha", 1, 0);
         ObjectAnimator scaleXAnim = ObjectAnimator.ofFloat(viewPager, "scaleX", 1f, scaleX);
         ObjectAnimator scaleYAnim = ObjectAnimator.ofFloat(viewPager, "scaleY", 1f, scaleY);
 
         if (mCurrentPosition != mEnterPosition) {
             // 退出动画不再退到原图位置，直接退到屏幕正中央
             final ObjectAnimator viewPagerAnim = ObjectAnimator.ofFloat(viewPager, "alpha", 1, 0);
-            set.play(maskAnim).with(indexAnim).with(scaleXAnim).with(scaleYAnim).with(viewPagerAnim);
+            set.play(maskAnim).with(indexAnim).with(sizeAnim).with(scaleXAnim).with(scaleYAnim).with(viewPagerAnim);
         } else {
             float translationX = mItemX - (mScreenWidth - mItemWidth) / 2;
             float scaledY = (mScreenHeight - mItemHeight) / 2;  // ViewPager缩放后图片上边缘的y
             float translationY = mItemY + mTitleBarHeight - scaledY;
             ObjectAnimator translationXAnim = ObjectAnimator.ofFloat(viewPager, "translationX", translationX);
             ObjectAnimator translationYAnim = ObjectAnimator.ofFloat(viewPager, "translationY", translationY);
-            set.play(maskAnim).with(indexAnim).with(scaleXAnim).with(scaleYAnim).with(translationXAnim).with(translationYAnim);
+            set.play(maskAnim).with(indexAnim).with(sizeAnim).with(scaleXAnim).with(scaleYAnim).with(translationXAnim).with(translationYAnim);
         }
 
         set.setDuration(350);
