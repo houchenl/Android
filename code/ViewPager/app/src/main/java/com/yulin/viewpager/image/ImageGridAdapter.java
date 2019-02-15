@@ -17,8 +17,6 @@ import java.util.List;
 
 public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.ImageGridViewHolder> {
 
-    private static final String TAG = "houchenl-GridAdapter";
-
     private List<String> urls;
     private Activity context;
 
@@ -54,7 +52,6 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Imag
                 float y = holder.root.getY();
                 int width = holder.root.getWidth();
                 int height = holder.root.getHeight();
-                Log.d(TAG, "onClick: x " + x + ", y " + y + ", width " + width + ", height " + height);
 
                 if (mOnClickListener != null)
                     mOnClickListener.onItemClick(holder.getAdapterPosition(), x, y, width, height);

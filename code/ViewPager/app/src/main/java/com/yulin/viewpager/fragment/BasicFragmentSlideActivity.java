@@ -1,12 +1,8 @@
 package com.yulin.viewpager.fragment;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.view.PagerAdapter;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 
 import com.yulin.viewpager.R;
 
@@ -15,10 +11,8 @@ import java.util.List;
 
 /**
  * 使用fragment实现ViewPager的基础使用
- * */
+ */
 public class BasicFragmentSlideActivity extends AppCompatActivity {
-
-    private static final String TAG = "houchenl-Activity";
 
     private List<String> data = new ArrayList<>();
 
@@ -42,7 +36,6 @@ public class BasicFragmentSlideActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int i) {
-                Log.d(TAG, "onPageSelected: " + i);
             }
 
             @Override

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.yulin.viewpager.Data;
 import com.yulin.viewpager.R;
@@ -14,8 +13,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ImageGridActivity extends AppCompatActivity implements ImageGridAdapter.OnItemClickListener {
-
-    private static final String TAG = "houchenl-ImageGrid";
 
     private ArrayList<String> images = new ArrayList<>();
 
@@ -40,7 +37,6 @@ public class ImageGridActivity extends AppCompatActivity implements ImageGridAda
 
     @Override
     public void onItemClick(int position, float x, float y, int width, int height) {
-        Log.d(TAG, "onItemClick: position " + position);
         int titleBarHeight = Tool.getTitleBarHeight(this);
         ImagePreviewActivity.startActivity(this, images, position, x, y, width, height, titleBarHeight);
     }
