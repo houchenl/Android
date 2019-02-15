@@ -26,4 +26,19 @@
         android:textColor="@android:color/white"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/tv_origin_image_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="32dp"
+        android:padding="16dp"
+        android:shadowColor="#000000"
+        android:shadowDx="1.0"
+        android:shadowDy="1.0"
+        android:shadowRadius="2.0"
+        android:textColor="#b2b2b2"
+        android:textSize="20sp"
+        android:visibility="gone" />
+
 </FrameLayout>

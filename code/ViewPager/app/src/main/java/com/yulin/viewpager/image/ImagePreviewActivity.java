@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,9 +22,7 @@ import java.util.ArrayList;
  * 操作状态栏：https://blog.csdn.net/chazihong/article/details/70228933
  * https://kano.guahao-test.com/Lka28048753?resize=200x400
  */
-public class ImagePreviewActivity extends FragmentActivity {
-
-    private static final String TAG = "houchenl-PreviewActivit";
+public class ImagePreviewActivity extends FragmentActivity implements View.OnClickListener {
 
     private static final String EXTRA_IMAGES = "extra_images";
     private static final String EXTRA_POSITION = "extra_position";
@@ -40,6 +37,7 @@ public class ImagePreviewActivity extends FragmentActivity {
     private View maskView;
     private ViewPager viewPager;
     private TextView mTvIndex;
+    private TextView mTvOriginImageSize;
 
     /**
      * 点击的待预览图片在原界面的x,y及宽高
@@ -52,6 +50,8 @@ public class ImagePreviewActivity extends FragmentActivity {
     private int mTitleBarHeight;    // 上个界面标题栏高度
 
     private int mEnterPosition, mCurrentPosition;
+
+    private ImageFragmentPagerAdapter adapter;
 
     public static void startActivity(Activity activity, ArrayList<String> urls, int position,
                                      float x, float y, int width, int height, int titleBarHeight) {
@@ -109,8 +109,9 @@ public class ImagePreviewActivity extends FragmentActivity {
         maskView = findViewById(R.id.mask_view);
         viewPager = findViewById(R.id.view_pager);
         mTvIndex = findViewById(R.id.tv_index);
+        mTvOriginImageSize = findViewById(R.id.tv_origin_image_size);
 
-        ImageFragmentPagerAdapter adapter = new ImageFragmentPagerAdapter(getSupportFragmentManager(), mImageUrls);
+        adapter = new ImageFragmentPagerAdapter(getSupportFragmentManager(), mImageUrls);
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(mCurrentPosition);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -122,8 +123,8 @@ public class ImagePreviewActivity extends FragmentActivity {
             @Override
             public void onPageSelected(int i) {
                 mCurrentPosition = i;
-                Log.d(TAG, "onPageSelected: " + i);
                 mTvIndex.setText(getResources().getString(R.string.photo_number_format, mCurrentPosition + 1, mImageUrls.size()));
+                updateOriginImageDisplay();
             }
 
             @Override
@@ -133,6 +134,9 @@ public class ImagePreviewActivity extends FragmentActivity {
         });
 
         mTvIndex.setText(getResources().getString(R.string.photo_number_format, mCurrentPosition + 1, mImageUrls.size()));
+        updateOriginImageDisplay();
+
+        mTvOriginImageSize.setOnClickListener(this);
     }
 
     private void startEnterAnim() {
@@ -202,6 +206,25 @@ public class ImagePreviewActivity extends FragmentActivity {
             }
         });
         set.start();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.tv_origin_image_size) {
+            ImageFragment fragment = (ImageFragment) adapter.instantiateItem(viewPager, mCurrentPosition);
+            fragment.loadImageFromNetwork();
+            fragment.setIsDisplayShowOrigin(false);
+        }
+    }
+
+    public void updateOriginImageDisplay() {
+        ImageFragment fragment = (ImageFragment) adapter.instantiateItem(viewPager, mCurrentPosition);
+
+        String fileSize = fragment.getFileSize();
+        mTvOriginImageSize.setText(getResources().getString(R.string.load_origin_image, fileSize));
+
+        boolean isVisible = fragment.isDisplayShowOrigin();
+        mTvOriginImageSize.setVisibility(isVisible ? View.VISIBLE : View.GONE);
     }
 
 }

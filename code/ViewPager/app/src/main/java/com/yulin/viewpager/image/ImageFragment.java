@@ -6,11 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -59,10 +59,10 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
 
     private ProgressBar mLoadingBar;
     private PhotoView mImageView;
-    private TextView mTvImageSize;
 
     private Disposable disposable;
-    private String fileSize;
+    private String mFileSize;
+    private boolean mIsDisplayShowOrigin;    // 是否显示查看原图
 
     public static ImageFragment getInstance(String imagePath, int position) {
         Bundle args = new Bundle();
@@ -90,10 +90,8 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_image, container, false);
         mLoadingBar = view.findViewById(R.id.loading);
         mImageView = view.findViewById(R.id.image);
-        mTvImageSize = view.findViewById(R.id.tv_origin_image_size);
 
         mImageView.setOnClickListener(this);
-        mTvImageSize.setOnClickListener(this);
 
         return view;
     }
@@ -132,9 +130,6 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
                 ImagePreviewActivity previewActivity = (ImagePreviewActivity) activity;
                 previewActivity.finishActivity();
             }
-        } else if (vid == R.id.tv_origin_image_size) {
-            loadImageFromNetwork(mImagePath);
-            mTvImageSize.setVisibility(View.GONE);
         }
     }
 
@@ -166,13 +161,15 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
                 .onlyRetrieveFromCache(true)
                 .addListener(new RequestListener<Drawable>() {
                     @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model,
+                                                Target<Drawable> target, boolean isFirstResource) {
                         getNetworkImageSize(true);
                         return false;
                     }
 
                     @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target,
+                                                   DataSource dataSource, boolean isFirstResource) {
                         getNetworkImageSize(false);
                         return false;
                     }
@@ -181,8 +178,9 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
 
     /**
      * 如果缓存中有大图，那么获取图片信息后，就不用再加载图片
+     *
      * @param isLoad 获取图片信息后，是否需要加载
-     * */
+     */
     private void getNetworkImageSize(final boolean isLoad) {
         mLoadingBar.setVisibility(View.VISIBLE);
         disposable = Observable.create(new ObservableOnSubscribe<String>() {
@@ -203,10 +201,7 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void accept(Boolean isDownloadOrigin) {
                         mLoadingBar.setVisibility(View.GONE);
-                        mTvImageSize.setText(getResources().getString(R.string.load_origin_image, fileSize));
-
-                        // 如果需要下载原图，就显示查看原图按钮，否则隐藏
-                        mTvImageSize.setVisibility(isDownloadOrigin ? View.VISIBLE : View.GONE);
+                        setIsDisplayShowOrigin(isDownloadOrigin);
 
                         // 如果不需要加载图片，return
                         if (!isLoad) return;
@@ -222,7 +217,14 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
     }
 
     /**
-     * @param imagePath    网络图片地址
+     * 加载原图
+     */
+    public void loadImageFromNetwork() {
+        loadImageFromNetwork(mImagePath);
+    }
+
+    /**
+     * @param imagePath 网络图片地址
      */
     private void loadImageFromNetwork(String imagePath) {
         mLoadingBar.setVisibility(View.VISIBLE);
@@ -232,15 +234,17 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
                 .load(imagePath)
                 .addListener(new RequestListener<Drawable>() {
                     @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model,
+                                                Target<Drawable> target, boolean isFirstResource) {
                         mLoadingBar.setVisibility(View.GONE);
-                        mTvImageSize.setVisibility(View.VISIBLE);
+                        setIsDisplayShowOrigin(true);
                         Toast.makeText(getContext(), R.string.load_image_fail, Toast.LENGTH_SHORT).show();
                         return false;
                     }
 
                     @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target,
+                                                   DataSource dataSource, boolean isFirstResource) {
                         mLoadingBar.setVisibility(View.GONE);
                         return false;
                     }
@@ -267,7 +271,7 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
 
     /**
      * 获取图片信息
-     * */
+     */
     private void getImageInfo(ObservableEmitter<String> emitter) {
         try {
             URL url = new URL(mImagePath + "?x-oss-process=image/info");
@@ -293,8 +297,9 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
 
     /**
      * 解析图片信息，获取图片宽度、高度、大小
+     *
      * @return 是否下载原图
-     * */
+     */
     private boolean parseImageInfo(String responseJson) {
         JSONObject jsonObject;
         try {
@@ -306,7 +311,7 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
                 if (sizeObject != null && sizeObject.has("value")) {
                     String value = sizeObject.getString("value");
                     long size = Long.parseLong(value);
-                    fileSize = getFormatSize(size);
+                    setFileSize(getFormatSize(size));
                 }
             }
 
@@ -336,6 +341,28 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
         }
 
         return true;
+    }
+
+    public String getFileSize() {
+        return mFileSize;
+    }
+
+    public void setFileSize(String mFileSize) {
+        this.mFileSize = mFileSize;
+    }
+
+    public boolean isDisplayShowOrigin() {
+        return mIsDisplayShowOrigin;
+    }
+
+    public void setIsDisplayShowOrigin(boolean mIsDisplayShowOrigin) {
+        this.mIsDisplayShowOrigin = mIsDisplayShowOrigin;
+        getContainer().updateOriginImageDisplay();
+    }
+
+    private ImagePreviewActivity getContainer() {
+        FragmentActivity activity = getActivity();
+        return (ImagePreviewActivity) activity;
     }
 
 }
