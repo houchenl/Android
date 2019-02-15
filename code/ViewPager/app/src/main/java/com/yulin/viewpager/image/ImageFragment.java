@@ -232,11 +232,11 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
     private void loadImageFromNetwork(String imagePath) {
         mLoadingBar.setVisibility(View.VISIBLE);
 
-        Glide.with(this).asBitmap().load(imagePath).into(new SimpleTarget<Bitmap>() {
+        Glide.with(this).load(imagePath).into(new SimpleTarget<Drawable>() {
             @Override
-            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                 mLoadingBar.setVisibility(View.GONE);
-                mImageView.setImageBitmap(resource);
+                mImageView.setImageDrawable(resource);
             }
 
             @Override
